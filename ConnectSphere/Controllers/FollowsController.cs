@@ -1,6 +1,7 @@
-﻿using ConnectSphere.Application.Auth.Commands.Register;
+using ConnectSphere.Application.Auth.Commands.Register;
 using ConnectSphere.Application.Common.DTOs;
 using ConnectSphere.Application.Follows.Commands.Follows;
+using ConnectSphere.Application.Follows.Commands.Unfollow;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -35,7 +36,7 @@ namespace ConnectSphere.API.Controllers
         /// <response code="404">if target user not found.</response>
         /// <response code="409">If the follower already follow this user.</response>
         /// <response code="500">If an unexcepected error has occured.</response>
-        [HttpPost("/follow")]
+        [HttpPost("follow")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ValidationProblemDetails),StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails),StatusCodes.Status401Unauthorized)]
@@ -67,7 +68,7 @@ namespace ConnectSphere.API.Controllers
         /// <response code="401">If the user is not authenticated.</response>
         /// <response code="404">if target user not found.</response>
         /// <response code="500">If an unexcepected error has occured.</response>
-        [HttpPost("/unfollow")]
+        [HttpPost("unfollow")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
@@ -79,9 +80,9 @@ namespace ConnectSphere.API.Controllers
             //We validate the existence of followerId and its format in the JwtEvents
             var followerId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
 
-            var followCommand = new FollowsCommand(Guid.Parse(followerId), userId);
+            var unfollowCommand = new UnfollowCommand(Guid.Parse(followerId), userId);
 
-            var result = await _mediator.Send(followCommand);
+            var result = await _mediator.Send(unfollowCommand);
 
             return HandleResult(result);
         }

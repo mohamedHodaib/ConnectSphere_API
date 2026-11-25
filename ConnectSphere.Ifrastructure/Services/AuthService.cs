@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using ConnectSphere.Application.Common.DTOs;
 using ConnectSphere.Application.Common.Interfaces.Services;
 using ConnectSphere.Application.Common.Models;
@@ -30,7 +30,7 @@ namespace ConnectSphere.Infrastructure.Services
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         private readonly IMapper _mapper;
-        private readonly ILogger<AuthenticationService> _logger;
+        private readonly ILogger<AuthService> _logger;
         private readonly IEmailService _emailService;
         private readonly FrontendSettings _frontendSettings;
         private readonly JwtSettings _jwtSettings;
@@ -42,7 +42,7 @@ namespace ConnectSphere.Infrastructure.Services
         public AuthService(UserManager<User> userManager
             , SignInManager<User> signInManager
             , IMapper mapper
-            , ILogger<AuthenticationService> logger
+            , ILogger<AuthService> logger
             , IOptions<JwtSettings> jwtSettings
             , IEmailService emailService
             , IOptions<FrontendSettings> frontendSettings)
@@ -195,7 +195,7 @@ namespace ConnectSphere.Infrastructure.Services
             _user!.RefreshToken = refreshToken;
 
             if (populateExp)
-                _user.RefreshTokenExpiryTime = DateTime.Now.AddDays(_jwtSettings.RefreshTokenExpireDays);
+                _user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(_jwtSettings.RefreshTokenExpireDays);
 
             await _userManager.UpdateAsync(_user);
 

@@ -1,4 +1,4 @@
-﻿using ConnectSphere.Application.Common.DTOs;
+using ConnectSphere.Application.Common.DTOs;
 using ConnectSphere.Application.Common.Models;
 using ConnectSphere.Application.Posts.Commands.CreatePost;
 using ConnectSphere.Application.Posts.Commands.DeletePost;
@@ -83,7 +83,7 @@ namespace ConnectSphere.API.Controllers
 
             var result = await _mediator.Send(CreatePostCommand);
 
-            return HandleCreatedResult(result, nameof(GetPostById), new { result.Data!.Id });
+            return HandleCreatedResult(result, nameof(GetPostById), data => new { data.Id });
         }
 
         /// <summary>

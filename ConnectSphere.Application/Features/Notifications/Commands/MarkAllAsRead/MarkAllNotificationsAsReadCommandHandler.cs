@@ -1,4 +1,4 @@
-﻿using ConnectSphere.Application.Common.Interfaces.Repositories;
+using ConnectSphere.Application.Common.Interfaces.Repositories;
 using ConnectSphere.Application.Common.Models;
 using ConnectSphere.Domain.Entities;
 using MediatR;
@@ -27,7 +27,7 @@ namespace ConnectSphere.Application.Notifications.Commands.MarkAllAsRead
                 request.UserId);
             
             //Mark the notification as read.
-            _unitOfWork.NotificationRepository.MarkAllAsReadAsync(request.UserId);
+            await _unitOfWork.NotificationRepository.MarkAllAsReadAsync(request.UserId);
             await _unitOfWork.CompleteAsync();
 
             _logger.LogInformation("All Notifications marked as read successfully for user {UserId}", request.UserId);
