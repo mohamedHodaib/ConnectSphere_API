@@ -1,4 +1,4 @@
-﻿using ConnectSphere.Application.Common.Behaviors;
+using ConnectSphere.Application.Common.Behaviors;
 using ConnectSphere.Application.Common.Interfaces.Repositories;
 using ConnectSphere.Application.Common.Interfaces.Services;
 using ConnectSphere.Application.Common.Settings;
@@ -33,6 +33,8 @@ namespace ConnectSphere.Application
             services.AddValidatorsFromAssembly(assembly);
 
             services.AddAutoMapper(cfg => { }, assembly);
+
+            services.AddMemoryCache();
 
             //Settings for using Options Pattern
             services.AddOptions<ValidationSettings>()

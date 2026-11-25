@@ -1,4 +1,4 @@
-﻿using ConnectSphere.Application.Common.DTOs;
+using ConnectSphere.Application.Common.DTOs;
 using ConnectSphere.Application.Features.Notifications.Queries.GetUserNotifications;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -82,7 +82,7 @@ namespace ConnectSphere.API.Controllers
         /// <response code="204">If the notification was marked as read successfully.</response>
         /// <response code="401">If the user is not authenticated.</response>
         /// <response code="500">If an unexcepected error has occured.</response>
-        [HttpPost("/read-all")]
+        [HttpPost("read-all")]
         [Authorize]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]

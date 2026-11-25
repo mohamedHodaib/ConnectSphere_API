@@ -1,4 +1,4 @@
-﻿using ConnectSphere.Application.Common.DTOs;
+using ConnectSphere.Application.Common.DTOs;
 using ConnectSphere.Application.Common.Models;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -11,7 +11,7 @@ namespace ConnectSphere.API.Controllers
 
     public class ApiControllerBase : ControllerBase
     {
-        protected IActionResult HandleCreatedResult<T>(Result<T> result, string actionName, object routeValues)
+        protected IActionResult HandleCreatedResult<T>(Result<T> result, string actionName, Func<T, object> routeValuesFactory)
         {
             //Handle errors immediately to reduce nesting
             if (!result.IsSuccess)
@@ -21,7 +21,7 @@ namespace ConnectSphere.API.Controllers
 
             // HTTP 201 Created is returned.
             // It requires the URI of the newly created resource.
-            return CreatedAtAction(actionName, routeValues, result.Data);
+            return CreatedAtAction(actionName, routeValuesFactory(result.Data!), result.Data);
         }
 
         protected IActionResult HandleResult<T>(Result<T> result)
@@ -77,6 +77,7 @@ namespace ConnectSphere.API.Controllers
                 ErrorType.Validation => StatusCodes.Status400BadRequest,
                 ErrorType.Conflict => StatusCodes.Status409Conflict,
                 ErrorType.Unauthorized => StatusCodes.Status401Unauthorized,
+                ErrorType.Forbidden => StatusCodes.Status403Forbidden,
                 _ => StatusCodes.Status500InternalServerError
             };
 
